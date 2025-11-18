@@ -56,7 +56,7 @@ Built with **Next.js 16 (App Router)**, **TypeScript**, **Supabase**, and the **
 - **Database / auth:** Supabase
 - **Calendar parsing:** [`node-ical`](https://github.com/icalingua/node-ical)
 - **Prayer times:** London Prayer Times API
-- **Deployment:** Vercel
+- **Deployment:** Netlify
 
 ---
 
