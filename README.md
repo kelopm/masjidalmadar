@@ -1,4 +1,4 @@
-# Masjid Al Madar – Shift Brothers
+# Masjid Al Madar - Brothers' Shift App
 
 A small web app to help brothers on shift look out for each other and organise their prayers.
 
@@ -15,7 +15,7 @@ Built with **Next.js 16 (App Router)**, **TypeScript**, **Supabase**, and the **
 
 ## Features
 
-### 👤 “I am…” – select yourself
+### 👤 “I am…” - select yourself
 - Searchable dropdown of all registered workers.
 - Stored in `localStorage` so the app remembers who you are on this device.
 
