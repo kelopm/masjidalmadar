@@ -52,6 +52,7 @@ export default function HomePage() {
   const [loadingWorkers, setLoadingWorkers] = useState(true);
   const onShiftRef = useRef<HTMLDivElement | null>(null);
   const [workerDropdownOpen, setWorkerDropdownOpen] = useState(false);
+  const workerSelectRef = useRef<HTMLDivElement | null>(null);
 
   const [name, setName] = useState('');
   const [icalUrl, setIcalUrl] = useState('');
@@ -169,6 +170,22 @@ export default function HomePage() {
     loadPrayerInfo();
     const id = setInterval(loadPrayerInfo, 60_000);
     return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!workerSelectRef.current) return;
+
+      const target = event.target as Node | null;
+      if (target && !workerSelectRef.current.contains(target)) {
+        setWorkerDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const handleTogglePrayerStatus = async (workerId: string, current: boolean) => {
@@ -430,59 +447,56 @@ export default function HomePage() {
           </div>
 
 
-{workers.length > 0 && (
-  <div className="mt-4 flex flex-col items-center gap-2">
-    <div className="flex flex-col items-center gap-1 sm:flex-row sm:gap-3 sm:justify-center">
-      <div className="relative w-64">
-        <input
-          type="text"
-          placeholder="Start typing your name..."
-          value={myWorkerInput}
-          onChange={(e) => handleWorkerInputChange(e.target.value)}
-          onFocus={() => setWorkerDropdownOpen(true)}
-          onBlur={() => {
-            // small delay so click on an option still works
-            setTimeout(() => setWorkerDropdownOpen(false), 100);
-          }}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
-        />
+          {workers.length > 0 && (
+            <div className="mt-4 flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-1 sm:flex-row sm:gap-3 sm:justify-center">
+                <div ref={workerSelectRef} className="relative w-64">
+                  <input
+                    type="text"
+                    placeholder="Start typing your name..."
+                    value={myWorkerInput}
+                    onChange={(e) => handleWorkerInputChange(e.target.value)}
+                    onFocus={() => setWorkerDropdownOpen(true)}
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  />
 
-        {/* Dropdown arrow */}
-        <button
-          type="button"
-          className="pointer-events-auto absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500"
-          onMouseDown={(e) => {
-            e.preventDefault(); // keep focus on input
-            setWorkerDropdownOpen((open) => !open);
-          }}
-        >
-          ▾
-        </button>
 
-        {/* Dropdown list */}
-        {workerDropdownOpen && filteredWorkers.length > 0 && (
-          <ul className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md border border-slate-200 bg-white text-left shadow-lg">
-            {filteredWorkers.map((w) => (
-              <li
-                key={w.id}
-                className="cursor-pointer px-3 py-1.5 text-sm text-slate-800 hover:bg-slate-100"
-                onMouseDown={(e) => {
-                  e.preventDefault(); // select before blur
-                  selectWorker(w);
-                }}
-              >
-                {w.display_name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
-    <p className="text-xs text-slate-600">
-      This is a searchable dropdown – type a few letters or click the arrow to see the list.
-    </p>
-  </div>
-)}
+                  {/* Dropdown arrow */}
+                  <button
+                    type="button"
+                    className="pointer-events-auto absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500"
+                    onMouseDown={(e) => {
+                      e.preventDefault(); // keep focus on input
+                      setWorkerDropdownOpen((open) => !open);
+                    }}
+                  >
+                    ▾
+                  </button>
+
+                  {/* Dropdown list */}
+                  {workerDropdownOpen && filteredWorkers.length > 0 && (
+                    <ul className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md border border-slate-200 bg-white text-left shadow-lg">
+                      {filteredWorkers.map((w) => (
+                        <li
+                          key={w.id}
+                          className="cursor-pointer px-3 py-1.5 text-sm text-slate-800 hover:bg-slate-100"
+                          onMouseDown={(e) => {
+                            e.preventDefault(); // select before blur
+                            selectWorker(w);
+                          }}
+                        >
+                          {w.display_name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+              <p className="text-xs text-slate-600">
+                This is a searchable dropdown - type a few letters or click the arrow to see the list.
+              </p>
+            </div>
+          )}
 
         </header>
 
