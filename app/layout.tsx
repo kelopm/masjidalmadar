@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Masjid Al Madar",
+  title: "Masjid Al Madar مدار",
   description: "Shifts",
 };
 
