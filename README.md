@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Masjid Al Madar – Shift Brothers
 
-## Getting Started
+A small web app to help brothers on shift look out for each other and organise their prayers.
 
-First, run the development server:
+The app:
+
+- shows who is on shift **right now** from their work iCal rotas
+- shows which brothers are on shift **during the current prayer time**
+- lets brothers tick off whether they’ve prayed or not
+- lets each brother save their **break time** for the day and see who is on break with them
+
+Built with **Next.js 16 (App Router)**, **TypeScript**, **Supabase**, and the **London Prayer Times API**.
+
+---
+
+## Features
+
+### 👤 “I am…” – select yourself
+- Searchable dropdown of all registered workers.
+- Stored in `localStorage` so the app remembers who you are on this device.
+
+### 🕌 Prayer during this shift
+- Fetches today’s prayer times for London (Fajr, Dhuhr, Asr, Asr (mithl 2), Maghrib, Isha).
+- Determines which prayer is **currently in effect**.
+- Shows all brothers whose rotas cover this prayer time.
+- Each brother can tick/untick **“Prayed / Not yet”** for the current prayer.
+- Status resets automatically at midnight.
+
+### 👥 Brothers in the system
+- Shows all brothers who have added their rota.
+- Optional “Check at time” input to see who would be on shift at a specific date/time.
+- “Who’s on now?” button scrolls down to the “On shift right now” section.
+
+### ⏰ On shift right now
+- Shows everyone whose iCal events cover **the current time** (or the test time).
+
+### ☕ Breaks for the day
+- Brothers can select a date and save their **break start/end** times.
+- Shows everyone’s breaks for that day.
+- Calculates overlaps so you can see who’s on break with whom.
+- Each brother can **edit or delete their own break**.
+
+### 📅 Add your rota (iCal link)
+- Simple form to add your name and iCal URL.
+- iCal link is stored on the server (via Supabase) and never shown publicly.
+
+### ❓ Help popup
+- “How to use this page” button opens a small modal explaining the steps.
+
+---
+
+## Tech stack
+
+- **Framework:** Next.js 16 (App Router, TypeScript)
+- **UI:** React, Tailwind CSS
+- **Database / auth:** Supabase
+- **Calendar parsing:** [`node-ical`](https://github.com/icalingua/node-ical)
+- **Prayer times:** London Prayer Times API
+- **Deployment:** Vercel
+
+---
+
+## Getting started
+
+### 1. Prerequisites
+
+- Node.js 18+ and npm
+- A Supabase project
+- A London Prayer Times API key
+
+### 2. Clone & install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+cd YOUR_REPO_NAME
+npm install
