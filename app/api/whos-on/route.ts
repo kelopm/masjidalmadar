@@ -13,15 +13,28 @@ type OnShiftPerson = {
   name: string;
 };
 
-// 👇 create Supabase client directly here
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey =
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ??
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+function getSupabaseClient() {
+  const url =
+    process.env.SUPABASE_URL ??
+    process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+  const key =
+    process.env.SUPABASE_ANON_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    throw new Error(
+      'Supabase env vars are missing. Please set SUPABASE_URL and SUPABASE_ANON_KEY (or the NEXT_PUBLIC_ equivalents).'
+    );
+  }
+
+  return createClient(url, key);
+}
 
 export async function GET(req: Request) {
+  const supabase = getSupabaseClient();
+
   const { searchParams } = new URL(req.url);
   const atParam = searchParams.get('at');
 
