@@ -412,13 +412,16 @@ export default function HomePage() {
             I did not create jinn and humans except to worship Me. (51:56)
           </p>
 
-          <button
-            type="button"
-            onClick={() => setHelpOpen(true)}
-            className="mt-3 inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 shadow-sm hover:bg-slate-50"
-          >
-            How to use this page
-          </button>
+<div className="mt-3 flex justify-center">
+  <button
+    type="button"
+    onClick={() => setHelpOpen(true)}
+    className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 shadow-sm hover:bg-slate-50"
+  >
+    How to use this page
+  </button>
+</div>
+
 
           {workers.length > 0 && (
             <div className="mt-4 flex flex-col items-center gap-2">
@@ -438,7 +441,7 @@ export default function HomePage() {
                 </datalist>
               </div>
               <p className="text-xs text-slate-600">
-                This is a searchable list – type a few letters and select your name.
+                This is a searchable list - type a few letters and select your name.
               </p>
             </div>
           )}
